@@ -1,4 +1,4 @@
-import { client } from "../../client";
+import { client, autoArea } from "../../client";
 import fileExists from "../../utils/fileExists";
 import { updateActionCommands } from "../../dom/updateActionCommands";
 import { pickEmotion } from "../../dom/pickEmotion";
@@ -101,5 +101,15 @@ export const handlePV = async (args: string[]) => {
     document.getElementById("button_4")!.style.display = "";
   } else {
     document.getElementById("button_4")!.style.display = "none";
+  }
+
+  if (autoArea) {
+    const areaIndex = client.areas.findIndex(
+      (a: any) => a && a.name.toLowerCase() === autoArea.toLowerCase()
+    );
+    if (areaIndex !== -1) {
+      client.sender.sendMusicChange(client.areas[areaIndex].name);
+      client.area = areaIndex;
+    }
   }
 };

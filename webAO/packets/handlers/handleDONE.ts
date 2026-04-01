@@ -1,5 +1,6 @@
 import queryParser from "../../utils/queryParser";
-import { client, clientState } from "../../client";
+import { client, clientState, autoChar } from "../../client";
+import { pickChar } from "../../dom/pickChar";
 
 const { mode } = queryParser();
 /**
@@ -15,5 +16,14 @@ export const handleDONE = (_args: string[]) => {
   if (mode === "watch") {
     // Spectators don't need to pick a character
     document.getElementById("client_waiting")!.style.display = "none";
+  }
+
+  if (autoChar) {
+    const charIndex = client.chars.findIndex(
+      (c: any) => c && c.name.toLowerCase() === autoChar.toLowerCase()
+    );
+    if (charIndex !== -1) {
+      pickChar(charIndex);
+    }
   }
 };
